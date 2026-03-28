@@ -2,7 +2,6 @@
 
 import { Trash2, X } from "lucide-react";
 
-
 export default function ConfirmModal({
   open,
   onConfirm,
@@ -11,8 +10,13 @@ export default function ConfirmModal({
   title = "Are you sure?",
   message = "This action cannot be undone.",
   confirmLabel = "Delete",
+  icon: Icon = Trash2,
+  iconColor,
 }) {
   if (!open) return null;
+
+  const defaultIconColor = iconColor || (isDark ? "text-red-400" : "text-red-500");
+  const defaultIconBg = iconColor ? (isDark ? "bg-white/[0.08]" : "bg-gray-100") : (isDark ? "bg-red-500/15" : "bg-red-50");
 
   return (
     <div
@@ -34,9 +38,8 @@ export default function ConfirmModal({
           <X size={15} />
         </button>
 
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4
-          ${isDark ? "bg-red-500/15" : "bg-red-50"}`}>
-          <Trash2 size={18} className={isDark ? "text-red-400" : "text-red-500"} />
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${defaultIconBg}`}>
+          <Icon size={18} className={defaultIconColor} />
         </div>
 
         <h3 className={`text-base font-semibold mb-1 ${isDark ? "text-white" : "text-gray-900"}`}>

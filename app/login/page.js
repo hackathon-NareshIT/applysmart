@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
-import { Mail, Lock, Loader } from "lucide-react";
+import { Mail, Lock, Loader, X } from "lucide-react";
 import useAppStore from "@/store/useAppStore";
 
 const getDarkToastStyle = () => ({
@@ -29,6 +29,30 @@ const getLightToastStyle = () => ({
   backdropFilter: "blur(12px)",
 });
 
+function showDismissibleToast(message, type, isDark) {
+  const baseStyle = isDark ? getDarkToastStyle() : getLightToastStyle();
+  const successStyle = { ...baseStyle, borderColor: "rgba(52,211,153,0.3)" };
+  const style = type === "success" ? successStyle : baseStyle;
+
+  toast.custom(
+    (t) => (
+      <div
+        style={style}
+        className="flex items-center gap-3 min-w-[220px] max-w-sm"
+      >
+        <span className="flex-1 text-sm">{message}</span>
+        <button
+          onClick={() => toast.dismiss(t.id)}
+          className="shrink-0 opacity-50 hover:opacity-100 transition-opacity cursor-pointer"
+        >
+          <X size={14} />
+        </button>
+      </div>
+    ),
+    { duration: type === "success" ? 2000 : 4000 }
+  );
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const { theme, setTheme, setUser, setToken, setIsAuthenticated } = useAppStore();
@@ -50,9 +74,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     if (!email || !password) {
-      toast.error("Please fill in all fields", {
-        style: isDark ? getDarkToastStyle() : getLightToastStyle(),
-      });
+      showDismissibleToast("Please fill in all fields", "error", isDark);
       return;
     }
 
@@ -68,9 +90,7 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.error || "Login failed", {
-          style: isDark ? getDarkToastStyle() : getLightToastStyle(),
-        });
+        showDismissibleToast(data.error || "Login failed", "error", isDark);
         return;
       }
 
@@ -82,14 +102,10 @@ export default function LoginPage() {
       localStorage.setItem("authToken", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      toast.success("Login successful! 🎉", {
-        style: { ...getDarkToastStyle(), borderColor: "rgba(52,211,153,0.3)" } || { ...getLightToastStyle(), borderColor: "rgba(52,211,153,0.3)" },
-      });
-      router.push("/dashboard");
+      showDismissibleToast("Login successful! 🎉", "success", isDark);
+      setTimeout(() => router.push("/dashboard"), 800);
     } catch (err) {
-      toast.error("Login failed. Please try again.", {
-        style: isDark ? getDarkToastStyle() : getLightToastStyle(),
-      });
+      showDismissibleToast("Login failed. Please try again.", "error", isDark);
       console.error(err);
     } finally {
       setLoading(false);
@@ -123,15 +139,6 @@ export default function LoginPage() {
       <div className="relative w-full max-w-md px-6">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div
-            className={`flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br ${
-              isDark
-                ? "from-indigo-500 to-violet-600"
-                : "from-indigo-600 to-violet-700"
-            }`}
-          >
-            <span className="text-lg">🚀</span>
-          </div>
           <h1
             className={`text-2xl font-bold tracking-tight ${
               isDark

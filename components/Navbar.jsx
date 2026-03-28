@@ -5,12 +5,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Sun, Moon, LogOut, Menu, X } from "lucide-react";
 import useAppStore from "@/store/useAppStore";
+import ConfirmModal from "@/components/ConfirmModal";
 
 export default function Navbar() {
   const router = useRouter();
   const { user, theme, setTheme, logout, isAuthenticated } = useAppStore();
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -35,8 +37,20 @@ export default function Navbar() {
   const isDark = theme === "dark";
 
   return (
-    <header
-      className={`border-b ${
+    <>
+      <ConfirmModal
+        open={showLogoutModal}
+        onConfirm={() => { setShowLogoutModal(false); handleLogout(); }}
+        onCancel={() => setShowLogoutModal(false)}
+        isDark={isDark}
+        title="Log out?"
+        message="You'll be signed out of your account."
+        confirmLabel="Log out"
+        icon={LogOut}
+        iconColor={isDark ? "text-red-300" : "text-red-600"}
+      />
+      <header
+        className={`border-b ${
         isDark
           ? "border-white/[0.07] bg-gradient-to-r from-indigo-950/60 via-violet-950/40 to-purple-950/60"
           : "border-indigo-200/30 bg-gradient-to-r from-indigo-50/80 via-violet-50/60 to-purple-50/80"
@@ -111,7 +125,7 @@ export default function Navbar() {
 
           {isAuthenticated && (
             <button
-              onClick={handleLogout}
+              onClick={() => setShowLogoutModal(true)}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all cursor-pointer ${
                 isDark
                   ? "bg-red-600/20 text-red-300 hover:bg-red-600/30"
@@ -181,7 +195,7 @@ export default function Navbar() {
               Analyze
             </Link>
             <button
-              onClick={handleLogout}
+              onClick={() => setShowLogoutModal(true)}
               className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all cursor-pointer ${
                 isDark
                   ? "bg-red-600/20 text-red-300 hover:bg-red-600/30"
@@ -195,5 +209,6 @@ export default function Navbar() {
         </div>
       )}
     </header>
+    </>
   );
 }
