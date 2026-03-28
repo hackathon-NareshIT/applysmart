@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Link from "next/link";
 import { User, Mail, Lock, Loader, X } from "lucide-react";
 import useAppStore from "@/store/useAppStore";
@@ -127,8 +127,6 @@ export default function RegisterPage() {
         isDark ? "bg-[#0b0f1a] text-white" : "bg-white text-[#1a202c]"
       }`}
     >
-      <Toaster position="top-right" gutter={10} toastOptions={{ style: isDark ? getDarkToastStyle() : getLightToastStyle() }} />
-      
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         {isDark ? (
           <>
