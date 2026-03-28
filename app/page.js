@@ -1,9 +1,21 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import useAppStore from "@/store/useAppStore";
 
 export default function Home() {
-  return (
-    <div>
-      <b>ApplySmart - Just Setting Up the Next.js project</b>
-    </div>
-  );
+  const router = useRouter();
+  const { isAuthenticated } = useAppStore();
+
+  useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+    if (authToken) {
+      router.push("/dashboard");
+    } else {
+      router.push("/login");
+    }
+  }, [router, isAuthenticated]);
+
+  return null;
 }
