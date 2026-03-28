@@ -141,7 +141,7 @@ export default function ImprovePage() {
           <button
             onClick={handleGenerate}
             disabled={generating}
-            className="cursor-pointer flex items-center gap-2 px-7 py-3 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 transition-all disabled:opacity-50"
+            className="cursor-pointer flex items-center justify-center gap-2 px-5 py-2.5 sm:px-7 sm:py-3 rounded-xl font-semibold text-xs sm:text-sm text-white bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 transition-all disabled:opacity-50"
           >
             {generating ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}
             {generating ? "Generating…" : "Generate Improved Resume"}

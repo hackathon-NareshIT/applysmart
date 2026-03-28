@@ -161,7 +161,7 @@ export default function AnalysisDetailPage() {
       <div className={`flex flex-col sm:flex-row gap-4 items-stretch mb-6 p-4 rounded-2xl border
         ${isDark ? "bg-white/[0.02] border-white/[0.06]" : "bg-white border-gray-200 shadow-sm"}`}>
 
-        <div className="flex flex-col justify-center items-start gap-4 sm:w-1/2 min-w-0">
+        <div className="flex flex-col justify-center items-center gap-4 sm:w-1/2 min-w-0">
           {hasImproved ? (
             <div
               className={`flex gap-1 p-1 rounded-xl w-fit ${

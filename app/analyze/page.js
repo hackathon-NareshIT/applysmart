@@ -164,12 +164,12 @@ export default function AnalyzePage() {
         <p className={`text-xs ${isDark ? "text-gray-500" : "text-gray-400"}`}>
           Supports PDF, DOCX, and TXT files
         </p>
-        <div className="flex items-center justify-end gap-2 flex-wrap">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-end gap-2">
           <StatusMessages active={analyzing} messages={ANALYZE_MESSAGES} isDark={isDark} />
           <button
             onClick={handleAnalyze}
             disabled={busy || !resume.trim() || !jobDescription.trim()}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-white transition-all
+            className={`w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-white transition-all
               bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500
               disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer`}
           >
