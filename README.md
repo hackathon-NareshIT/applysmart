@@ -30,7 +30,7 @@ An AI-powered resume analyzer and optimizer built with Next.js. Paste your resum
 ### 1. Clone and install
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/deepak-kr-patra/applysmart.git
 cd applysmart
 npm install
 ```
